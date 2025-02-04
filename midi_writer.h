@@ -1,3 +1,10 @@
+/******************************************************************************
+File:   midi_writer.h
+Info:   Header file containing class definitions for MidiWriter
+Author: Logan Richey
+Date:   Feb 4, 2025
+******************************************************************************/
+
 #ifndef MIDI_WRITER_H
 #define MIDI_WRITER_H
 

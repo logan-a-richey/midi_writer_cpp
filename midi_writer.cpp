@@ -1,3 +1,10 @@
+/******************************************************************************
+File:   midi_writer.cpp
+Info:   Contains class MidiWriter, a simple library for creating .mid files.
+Author: Logan Richey
+Date:   Feb 4, 2025
+******************************************************************************/
+
 #include "midi_writer.h"
 #include <iostream>
 #include <fstream>
