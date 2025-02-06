@@ -1,3 +1,9 @@
-README
-MIDI WRITER (CPP VERSION)
+# MidiWriter - Python Version
+
+# Detail:
+
+# Usage:
+
+# Example:
+
 
