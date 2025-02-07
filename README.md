@@ -40,15 +40,16 @@ int main() {
     myMidi.addBPM(0, 0, DEFAULT_BPM);
 
     // Define Channel-Program mappings:
-    // Alternate channels for same consecutive Instrument/Program index, otherwise programs like Musescore will combine staves:
     myMidi.setChannel(0, 0); // piano 1
     myMidi.setChannel(1, 0); // piano 2
 
     // Add MIDI notes directly:
-    myMidi.addNote(0, 0, 0 * TPQ, 1 * TPQ, 60); // C4
-    myMidi.addNote(1, 1, 1 * TPQ, 1 * TPQ, 62); // D4
-    myMidi.addNote(2, 0, 2 * TPQ, 1 * TPQ, 64); // E4
-    myMidi.addNote(3, 1, 3 * TPQ, 1 * TPQ, 65); // F4
+    // addNote params: track, channel, start, duration, pitch, velocity
+    // alternate channels so Musescore will not combine staves:
+    myMidi.addNote(0, 0, 0 * TPQ, 1 * TPQ, 60, 120); // C4
+    myMidi.addNote(1, 1, 1 * TPQ, 1 * TPQ, 62, 120); // D4
+    myMidi.addNote(2, 0, 2 * TPQ, 1 * TPQ, 64, 120); // E4
+    myMidi.addNote(3, 1, 3 * TPQ, 1 * TPQ, 65, 120); // F4
 
     // Write the MIDI to an output/ directory:
     std::string output_filename = "output/test_multiple_tracks.mid";
