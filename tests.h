@@ -1,4 +1,9 @@
-// tests.h
+/*******************************************************************************
+File:   tests.h
+Info:   Declare tests for MidiWriter class
+Author: Logan Richey
+Date:   Feb 6, 2025
+*******************************************************************************/
 
 // INCLUDES
 #include <iostream>

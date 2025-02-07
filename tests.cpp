@@ -1,4 +1,9 @@
-// tests.cpp
+/*******************************************************************************
+File:   tests.cpp
+Info:   Define tests for MidiWriter class
+Author: Logan Richey
+Date:   Feb 6, 2025
+*******************************************************************************/
 
 #include <iostream>
 #include <map>

@@ -150,7 +150,8 @@ void MidiWriter::save(const std::string &output_filename) {
     }
     outfile.write(reinterpret_cast<const char*>(file_data.data()), file_data.size());
     outfile.close();
-    std::cout << "MIDI file '" << output_filename << "' has been saved." << std::endl;
+    // DEBUG
+    // std::cout << "MIDI file '" << output_filename << "' has been saved." << std::endl;
 }
 
 // encode_var_len
