@@ -15,6 +15,9 @@
 ## Installation
 Simply include `MidiWriter.h` and compile it with your C++ project.
 
+### Create Directory for Output MIDI files:
+`mkdir output`
+
 ### Example compilation (Requires C++ 11 or higher):
 `g++ -c *.o`
 `g++ -o main *.o`
