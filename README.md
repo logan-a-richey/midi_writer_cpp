@@ -1,4 +1,4 @@
-# MidiWriter
+# README: MidiWriter (C++)
 
 ## Overview
 - `MidiWriter` is a lightweight C++ class designed to generate and save MIDI files.
@@ -93,7 +93,7 @@ Writes the MIDI data to a file.
   - `output_filename`: Name of the output MIDI file.
 
 ## Notes
-1. Create an instance of the MidiWriter class: `myMidi = MidiWriter();`
+1. Create an instance of the MidiWriter class: `MidiWriter myMidi;`
 - MIDI events are defined in terms of an integer number of ticks per quarter note. Default is 480 ticks per quarter.
 - You can change the default ticks per quarter upon instantiating the MidiWriter class.
 
