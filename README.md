@@ -30,7 +30,8 @@ Simply include `MidiWriter.h` and compile it with your C++ project.
 
 int main() {
     // Simple test to write 4 quarter notes across 4 staves.
-    
+    const int TPQ; // TICKS_PER_QUARTER
+
     // Create the MIDI object
     MidiWriter myMidi;
 
