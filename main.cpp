@@ -2,7 +2,7 @@
 File:   main.cpp
 Info:   MidiWriter demo!
 Author: Logan Richey
-Date:   Feb 4, 2025
+Date:   Feb 6, 2025
 ******************************************************************************/
 
 #include "tests.h"
