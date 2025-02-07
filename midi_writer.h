@@ -2,7 +2,7 @@
 File:   midi_writer.h
 Info:   Header file containing class definitions for MidiWriter
 Author: Logan Richey
-Date:   Feb 4, 2025
+Date:   Feb 6, 2025
 ******************************************************************************/
 
 #ifndef MIDI_WRITER_H
@@ -30,32 +30,29 @@ public:
 // MidiWriter is a simple class to build and save MIDI files.
 class MidiWriter {
 public:
-    int ticks_per_quarter;
+    int TICKS_PER_QUARTER;
+    
+    // constructor
+    MidiWriter(int ticks=480){
+        TICKS_PER_QUARTER = ticks;
+    };
+    
+    // Public members
+    int addTrack();
+    void setChannel(int channel = 0, int program = 0);
+    void addBPM(int track = 0, int start = 0, int bpm = 120);
+    void addNote(
+        int track = 0, int channel = 0, int start = 0,
+        int duration = 480, int pitch = 60, int velocity = 127
+    );
+    void save(const std::string &output_filename);
+
+private:
     std::vector<Track> tracks;         // List of tracks.
     std::map<int, int> channel_program;  // Mapping: channel -> program number.
 
-    MidiWriter();
-    // Encodes an integer as a variable-length quantity.
-    std::vector<unsigned char> encode_var_len(int value);
-
-    // Adds a new track. Returns the index of the track.
-    int addTrack();
-
-    // Returns a reference to a track (auto-adds if needed).
     Track& get_track(int track_idx);
-
-    // Sets the instrument (program) for a channel. Also writes a program-change event at tick 0.
-    void setChannel(int channel = 0, int program = 0);
-
-    // Inserts a tempo (BPM) change event.
-    void addBPM(int track = 0, int start = 0, int bpm = 120);
-
-    // Adds a note event (note-on and note-off) to a track.
-    void addNote(int track = 0, int channel = 0, int start = 0, int duration = 480,
-                 int pitch = 60, int velocity = 127);
-
-    // Saves the built MIDI file to disk.
-    void save(const std::string &output_filename);
+    std::vector<unsigned char> encode_var_len(int value);
 };
 
 #endif // MIDI_WRITER_H

@@ -2,62 +2,35 @@
 File:   midi_writer.cpp
 Info:   Contains class MidiWriter, a simple library for creating .mid files.
 Author: Logan Richey
-Date:   Feb 4, 2025
+Date:   Feb 6, 2025
 ******************************************************************************/
 
 #include "midi_writer.h"
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <map>
 
-// --- Track member function definitions ---
-
+// Define Track definitions:
 void Track::add_event(int tick, const std::vector<unsigned char>& event_data) {
     Event ev;
     ev.tick = tick;
     ev.data = event_data;
-    events.push_back(ev);
+    events.push_back({tick, event_data});
 }
 
 void Track::sort_events() {
+    // sort events in order of increasing midi tick
     std::sort(events.begin(), events.end(), [](const Event &a, const Event &b) {
         return a.tick < b.tick;
     });
 }
 
-// --- MidiWriter member function definitions ---
-
-MidiWriter::MidiWriter() : ticks_per_quarter(480) {}
-
-std::vector<unsigned char> MidiWriter::encode_var_len(int value) {
-    uint32_t buffer = value & 0x7F;
-    value >>= 7;
-    while (value > 0) {
-        buffer = (buffer << 8) | ((value & 0x7F) | 0x80);
-        value >>= 7;
-    }
-    std::vector<unsigned char> bytes;
-    while (true) {
-        bytes.push_back(buffer & 0xFF);
-        if (buffer & 0x80)
-            buffer >>= 8;
-        else
-            break;
-    }
-    return bytes;
-}
-
+// Define MidiWriter definitions:
 int MidiWriter::addTrack() {
     Track track;
     tracks.push_back(track);
     return static_cast<int>(tracks.size()) - 1;
-}
-
-Track& MidiWriter::get_track(int track_idx) {
-    while (track_idx >= static_cast<int>(tracks.size())) {
-        addTrack();
-    }
-    return tracks[track_idx];
 }
 
 void MidiWriter::setChannel(int channel, int program) {
@@ -88,17 +61,17 @@ void MidiWriter::addBPM(int track, int start, int bpm) {
     trk.add_event(tick, meta_event);
 }
 
-void MidiWriter::addNote(int track, int channel, int start, int duration,
-                         int pitch, int velocity) {
-    if (track < 0 || channel < 0 || start < 0 || duration <= 0 ||
-        velocity < 0 || velocity > 127) {
+void MidiWriter::addNote(int track, int channel, int start, int duration, int pitch, int velocity) {
+    // simple bound check on params
+    if (track < 0 || channel < 0 || start < 0 || duration <= 0 || velocity < 0 || velocity > 127) {
         std::cerr << "[W] Invalid parameters for addNote" << std::endl;
         return;
     }
+    
     int start_tick = start;
     int end_tick = start + duration;
     Track &trk = get_track(track);
-
+    
     // Note on event.
     std::vector<unsigned char> note_on = {
         static_cast<unsigned char>(0x90 | (channel & 0x0F)),
@@ -106,7 +79,7 @@ void MidiWriter::addNote(int track, int channel, int start, int duration,
         static_cast<unsigned char>(velocity & 0x7F)
     };
     trk.add_event(start_tick, note_on);
-
+    
     // Note off event.
     std::vector<unsigned char> note_off = {
         static_cast<unsigned char>(0x80 | (channel & 0x0F)),
@@ -127,6 +100,7 @@ void MidiWriter::save(const std::string &output_filename) {
     // Build the Header Chunk.
     std::string header_chunk_type = "MThd";
     file_data.insert(file_data.end(), header_chunk_type.begin(), header_chunk_type.end());
+    
     // Header length = 6 (4-byte big-endian).
     file_data.push_back(0);
     file_data.push_back(0);
@@ -138,8 +112,8 @@ void MidiWriter::save(const std::string &output_filename) {
     file_data.push_back(midi_format & 0xFF);
     file_data.push_back((num_tracks >> 8) & 0xFF);
     file_data.push_back(num_tracks & 0xFF);
-    file_data.push_back((ticks_per_quarter >> 8) & 0xFF);
-    file_data.push_back(ticks_per_quarter & 0xFF);
+    file_data.push_back((TICKS_PER_QUARTER >> 8) & 0xFF);
+    file_data.push_back(TICKS_PER_QUARTER & 0xFF);
     
     // Build each Track Chunk.
     for (auto &trk : tracks) {
@@ -177,5 +151,32 @@ void MidiWriter::save(const std::string &output_filename) {
     outfile.write(reinterpret_cast<const char*>(file_data.data()), file_data.size());
     outfile.close();
     std::cout << "MIDI file '" << output_filename << "' has been saved." << std::endl;
+}
+
+// encode_var_len
+std::vector<unsigned char> MidiWriter::encode_var_len(int value) {
+    uint32_t buffer = value & 0x7F;
+    value >>= 7;
+    while (value > 0) {
+        buffer = (buffer << 8) | ((value & 0x7F) | 0x80);
+        value >>= 7;
+    }
+    std::vector<unsigned char> bytes;
+    while (true) {
+        bytes.push_back(buffer & 0xFF);
+        if (buffer & 0x80)
+            buffer >>= 8;
+        else
+            break;
+    }
+    return bytes;
+}
+
+// get_track
+Track& MidiWriter::get_track(int track_idx) {
+    while (track_idx >= tracks.size()) {
+        addTrack();
+    }
+    return tracks[track_idx];
 }
 
