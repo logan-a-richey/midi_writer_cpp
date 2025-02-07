@@ -30,7 +30,7 @@ Simply include `MidiWriter.h` and compile it with your C++ project.
 #include "midi_writer.h" // import the MidiWriter class
 
 int main() {
-    // Simple test to write 4 quarter notes across 4 staves.
+    // Simple test to write 4 quarter notes across 4 staves:
     const int TPQ; // TICKS_PER_QUARTER
 
     // Create an instance of the MidiWriter class:
@@ -39,10 +39,10 @@ int main() {
     // Create tempo event:
     myMidi.addBPM(0, 0, DEFAULT_BPM);
 
-    // Create Track-Channel mappings:
-    // Alternate channels for different tracks:
-    myMidi.setChannel(0, 0);
-    myMidi.setChannel(1, 0);
+    // Define Channel-Program mappings:
+    // Alternate channels for same consecutive Instrument/Program index, otherwise programs like Musescore will combine staves:
+    myMidi.setChannel(0, 0); // piano 1
+    myMidi.setChannel(1, 0); // piano 2
 
     // Add MIDI notes directly:
     myMidi.addNote(0, 0, 0 * TPQ, 1 * TPQ, 60); // C4
@@ -50,7 +50,7 @@ int main() {
     myMidi.addNote(2, 0, 2 * TPQ, 1 * TPQ, 64); // E4
     myMidi.addNote(3, 1, 3 * TPQ, 1 * TPQ, 65); // F4
 
-    // Write the MIDI:
+    // Write the MIDI to an output/ directory:
     std::string output_filename = "output/test_multiple_tracks.mid";
     myMidi.save(output_filename);
     std::cout << "Successfully created " << output_filename << std::endl;
