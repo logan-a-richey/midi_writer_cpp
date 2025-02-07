@@ -26,6 +26,7 @@ Simply include `MidiWriter.h` and compile it with your C++ project.
 ## Usage
 ### 1. Creating a MIDI File
 ```cpp
+#include <iostream>
 #include "MidiWriter.h"
 
 int main() {
