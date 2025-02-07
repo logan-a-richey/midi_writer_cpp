@@ -18,7 +18,7 @@ Simply include `MidiWriter.h` and compile it with your C++ project.
 ### Example compilation (Requires C++ 11 or higher):
 `g++ -c *.o`
 `g++ -o main *.o`
-`./main
+`./main`
 
 ## Usage
 ### 1. Creating a MIDI File
