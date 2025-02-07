@@ -27,30 +27,30 @@ Simply include `MidiWriter.h` and compile it with your C++ project.
 ### 1. Creating a MIDI File
 ```cpp
 #include <iostream>
-#include "MidiWriter.h"
+#include "midi_writer.h" // import the MidiWriter class
 
 int main() {
     // Simple test to write 4 quarter notes across 4 staves.
     const int TPQ; // TICKS_PER_QUARTER
 
-    // Create the MIDI object
+    // Create an instance of the MidiWriter class:
     MidiWriter myMidi;
 
-    // Create tempo event
+    // Create tempo event:
     myMidi.addBPM(0, 0, DEFAULT_BPM);
 
-    // Create Track-Channel mappings
-    // Alternate channels for different tracks.
+    // Create Track-Channel mappings:
+    // Alternate channels for different tracks:
     myMidi.setChannel(0, 0);
     myMidi.setChannel(1, 0);
 
-    // Add MIDI notes directly
-    myMidi.addNote(0, 0, 0 * TPQ, 1 * TPQ, 60);
-    myMidi.addNote(1, 1, 1 * TPQ, 1 * TPQ, 62);
-    myMidi.addNote(2, 0, 2 * TPQ, 1 * TPQ, 64);
-    myMidi.addNote(3, 1, 3 * TPQ, 1 * TPQ, 65);
+    // Add MIDI notes directly:
+    myMidi.addNote(0, 0, 0 * TPQ, 1 * TPQ, 60); // C4
+    myMidi.addNote(1, 1, 1 * TPQ, 1 * TPQ, 62); // D4
+    myMidi.addNote(2, 0, 2 * TPQ, 1 * TPQ, 64); // E4
+    myMidi.addNote(3, 1, 3 * TPQ, 1 * TPQ, 65); // F4
 
-    // Write the MIDI
+    // Write the MIDI:
     std::string output_filename = "output/test_multiple_tracks.mid";
     myMidi.save(output_filename);
     std::cout << "Successfully created " << output_filename << std::endl;
