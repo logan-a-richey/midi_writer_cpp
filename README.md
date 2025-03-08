@@ -1,4 +1,4 @@
-# README: MidiWriter (C++)
+# lib_midi_writer-cpp (README)
 
 ## Overview
 - `MidiWriter` is a lightweight C++ class designed to generate and save MIDI files.
