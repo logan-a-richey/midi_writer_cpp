@@ -1,4 +1,5 @@
-# midi_writer_cpp
+# MidiWriter C++
+
 ## Overview
 - `MidiWriter` is a lightweight C++ class designed to generate and save MIDI files.
 - It provides an easy-to-use interface for adding tracks, setting channels, specifying tempo, and inserting MIDI note events.
@@ -15,9 +16,6 @@
 * Compile with `make`
 * To use, simply include `midi_writer.h` and instantiate a `MidiWriter` object in your C++ project.
 
-## License
-This project is open-source and available under the MIT License.
-
 ## TODO
 * Dynamic output directory. Create an `output` dir at parent level if it does not exist already. 
 * Pass `const std::string& filename` into `test.h` and `test.cpp` functions for the correct filepath.
@@ -29,3 +27,8 @@ This project is open-source and available under the MIT License.
 ## Contributing
 - Feel free to offer suggestions and feedback!
 - If you wish to contribute, please create a separate branch, and I'll consider modifications.
+
+---
+
+## License
+This project is open-source and available under the MIT License.
