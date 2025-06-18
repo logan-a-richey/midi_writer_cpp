@@ -32,6 +32,11 @@ $(BUILD_DIR):
 $(BIN_DIR):
 	mkdir -p $(BIN_DIR)
 
+# TODO
+# Shared library (Linux)
+lib/libmidiwriter.so: src/midi_writer.cpp src/midi_c_api.cpp
+	$(CXX) -fPIC -shared -o $@ $^
+
 clean:
 	rm -rf $(BUILD_DIR) $(BIN_DIR)
 	@echo "Cleaned all build files."
