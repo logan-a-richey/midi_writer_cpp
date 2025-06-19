@@ -16,26 +16,35 @@ constexpr int DEFAULT_VELOCITY = 120;
 constexpr int DRUM_CHANNEL = 9;
 constexpr int DEFAULT_DRUM_PITCH = 32;
 
-const std::unordered_map<char, int> LETTER_TO_PITCH = {{'C', 60}, {'D', 62}, {'E', 64}, {'F', 65},
-                                                       {'G', 67}, {'A', 69}, {'B', 71}};
+const std::unordered_map<char, int> LETTER_TO_PITCH = {
+    {'C', 60}, 
+    {'D', 62}, 
+    {'E', 64}, 
+    {'F', 65},
+    {'G', 67}, 
+    {'A', 69}, 
+    {'B', 71}
+};
 
-const std::unordered_map<std::string, int> DRUMS = {{"kick_drum", 35},
-                                                    {"snare_drum_rim", 37},
-                                                    {"snare_drum", 38},
-                                                    {"cymbal_hihat_closed", 42},
-                                                    {"cymbal_hihat_open", 46},
-                                                    {"cymbal_crash1", 49},
-                                                    {"cymbal_crash2", 57},
-                                                    {"cymbal_china", 52},
-                                                    {"cymbal_ride", 51},
-                                                    {"cymbal_ride_bell", 53},
-                                                    {"cymbal_splash", 55},
-                                                    {"tom2", 43},
-                                                    {"tom3", 45},
-                                                    {"tom4", 47},
-                                                    {"tom5", 50},
-                                                    {"tambourine", 54},
-                                                    {"cowbell", 56}};
+const std::unordered_map<std::string, int> DRUMS = {
+    {"kick_drum", 35},
+    {"snare_drum_rim", 37},
+    {"snare_drum", 38},
+    {"cymbal_hihat_closed", 42},
+    {"cymbal_hihat_open", 46},
+    {"cymbal_crash1", 49},
+    {"cymbal_crash2", 57},
+    {"cymbal_china", 52},
+    {"cymbal_ride", 51},
+    {"cymbal_ride_bell", 53},
+    {"cymbal_splash", 55},
+    {"tom2", 43},
+    {"tom3", 45},
+    {"tom4", 47},
+    {"tom5", 50},
+    {"tambourine", 54},
+    {"cowbell", 56}
+};
 
 int get_drum_pitch(const std::string &name)
 {
@@ -85,8 +94,17 @@ void MidiTest::test_chords()
         int duration;
         int pitch;
     };
-    const std::vector<NoteSpec> notes = {{0, 3, 60}, {0, 3, 64}, {0, 3, 67}, {0, 3, 71},
-                                         {4, 4, 60}, {5, 4, 64}, {6, 4, 67}, {7, 4, 71}};
+    
+    const std::vector<NoteSpec> notes = {
+        {0, 3, 60}, 
+        {0, 3, 64}, 
+        {0, 3, 67}, 
+        {0, 3, 71},
+        {4, 4, 60}, 
+        {5, 4, 64}, 
+        {6, 4, 67}, 
+        {7, 4, 71}
+    };
 
     for (const auto &n : notes)
     {

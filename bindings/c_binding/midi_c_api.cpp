@@ -27,4 +27,17 @@ extern "C" {
     void midi_writer_save(void* writer, const char* filename) {
         static_cast<MidiWriter*>(writer)->save(std::string(filename));
     }
+
+    int midi_writer_add_track(void* writer) {
+        return static_cast<MidiWriter*>(writer)->add_track();
+    }
+
+    void midi_writer_add_time_signature(void* writer, int track, int start, int numerator, int denominator) {
+        static_cast<MidiWriter*>(writer)->add_time_signature(track, start, numerator, denominator);
+    }
+
+    void midi_writer_add_track_name(void* writer, int track, const char* name, int start) {
+        static_cast<MidiWriter*>(writer)->add_track_name(track, std::string(name), start);
+    }
+
 }

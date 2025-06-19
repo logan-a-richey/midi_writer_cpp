@@ -1,5 +1,9 @@
+venv
 bin
 build
 output
 *.exe
+*.o
+*.so
+lib/libmidiwriter.so
 
