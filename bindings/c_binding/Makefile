@@ -21,7 +21,8 @@ SRC_FILES = \
     midi_c_api.cpp
 
 # Object files
-OBJ_FILES = $(SRC_FILES:%.cpp=$(BUILD_DIR)/%.o)
+# OBJ_FILES = $(SRC_FILES:%.cpp=$(BUILD_DIR)/%.o)
+OBJ_FILES := $(patsubst %.cpp,$(BUILD_DIR)/%.o,$(SRC_FILES))
 
 # Default Target
 all: $(TARGET)
