@@ -11,6 +11,13 @@ BUILD_DIR="$ROOT_DIR/build"
 CTYPES_BUILD_DIR="$ROOT_DIR/bindings/ctypes_binding/build"
 
 # Remove build artifacts
-rm -rf "$LIB_DIR" "$BUILD_DIR" "$CTYPES_BUILD_DIR"
+echo "Removing directory: $LIB_DIR" 
+rm -rf "$LIB_DIR" 
+
+echo "Removing directory: $BUILD_DIR" 
+rm -rf "$BUILD_DIR" 
+
+echo "Removing directory: $CTYPES_BUILD_DIR"
+rm -rf "$CTYPES_BUILD_DIR"
 
 echo "[CLEAN] Finished."
