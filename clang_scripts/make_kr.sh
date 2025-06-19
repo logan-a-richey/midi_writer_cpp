@@ -4,43 +4,36 @@
 
 set -e
 
-# === Config ===
 SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROJECT_ROOT="$(realpath "$SCRIPT_DIR/..")"
 cd "$PROJECT_ROOT" || exit 1
 cat > "$PROJECT_ROOT/.clang-format" <<EOF
 BasedOnStyle: LLVM
 
-# === Indentation ===
 IndentWidth: 4
 UseTab: Never
 TabWidth: 4
 IndentCaseLabels: true
 
-# === Bracing Style ===
 BreakBeforeBraces: Attach
 AllowShortIfStatementsOnASingleLine: true
 AllowShortLoopsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: Empty
 
-# === Function/Argument Formatting ===
 BinPackArguments: false
 BinPackParameters: false
 AlignAfterOpenBracket: DontAlign
 PenaltyBreakBeforeFirstCallParameter: 10000
 
-# === Initializer Lists ===
 Cpp11BracedListStyle: true
 AllowAllConstructorInitializersOnNextLine: false
 BreakConstructorInitializers: AfterColon
 
-# === Formatting Control ===
 ColumnLimit: 100
 AlignOperands: false
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 
-# === Misc ===
 SpaceBeforeParens: ControlStatements
 SpacesInContainerLiterals: false
 EOF
