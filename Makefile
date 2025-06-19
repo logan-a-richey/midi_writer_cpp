@@ -1,4 +1,4 @@
-# Makefile
+# Makefile for C++ source
 SRC_DIR := src
 INC_DIR := include
 BUILD_DIR := build
