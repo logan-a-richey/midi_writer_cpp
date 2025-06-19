@@ -25,7 +25,6 @@ The library includes:
 * To use in a Python project, create a submodule of this repo. From `python_usage/`, import the midi writer class using `from midi_writer import MidiWriter`. `MidiWriter` is the Python wrapper around the C++ version. 
 
 ## TODO
-* Note there is a `bindings/src` dir that contains `.o` files from `src/`. This should be renamed to `src_build/` to avoid confusion or accidental deletion.
 * Pybind11 usage. Currently there is a mock version that should be close, however, the correct Python paths have to be set.
 * Default parameters for midi functions. Will involve refactoring ctypes or using pybind11. Not critical since most IDEs have IntelliSense.
 * For `get_track`, consider using `std::optional<Track>` to return a `std::nullopt` in case the track lookup fails. Not critical since interal logic is currently working.
