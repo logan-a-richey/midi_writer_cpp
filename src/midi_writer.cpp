@@ -14,41 +14,35 @@ const std::vector<uint8_t> META_TIME_SIGNATURE_PREFIX = {0xFF, 0x58, 0x04};
 
 MidiWriter::MidiWriter() = default;
 
-int MidiWriter::add_track()
-{
+int MidiWriter::add_track() {
     tracks_.emplace_back();
     return static_cast<int>(tracks_.size()) - 1;
 }
 
-Track &MidiWriter::get_track(int track_index)
-{
-    while (track_index >= static_cast<int>(tracks_.size()))
-    {
+Track &MidiWriter::get_track(int track_index) {
+    while (track_index >= static_cast<int>(tracks_.size())) {
         add_track();
     }
     return tracks_[track_index];
 }
 
-void MidiWriter::set_channel(int channel, int program)
-{
+void MidiWriter::set_channel(int channel, int program) {
     channel_program_[channel] = program;
-    std::vector<uint8_t> event = {static_cast<uint8_t>(0xC0 | (channel & 0x0F)),
-                                  static_cast<uint8_t>(program & 0x7F)};
+    std::vector<uint8_t> event = {
+        static_cast<uint8_t>(0xC0 | (channel & 0x0F)), static_cast<uint8_t>(program & 0x7F)};
     get_track(0).add_event(0, event);
 }
 
-void MidiWriter::add_bpm(int track_index, int start, int bpm)
-{
-    if (bpm <= 0)
-    {
+void MidiWriter::add_bpm(int track_index, int start, int bpm) {
+    if (bpm <= 0) {
         std::cerr << "[W] Invalid BPM: " << bpm << "\n";
         return;
     }
 
     int tempo = 60000000 / bpm;
     std::vector<uint8_t> tempo_bytes = {static_cast<uint8_t>((tempo >> 16) & 0xFF),
-                                        static_cast<uint8_t>((tempo >> 8) & 0xFF),
-                                        static_cast<uint8_t>(tempo & 0xFF)};
+        static_cast<uint8_t>((tempo >> 8) & 0xFF),
+        static_cast<uint8_t>(tempo & 0xFF)};
 
     std::vector<uint8_t> event = META_TEMPO_PREFIX;
     event.insert(event.end(), tempo_bytes.begin(), tempo_bytes.end());
@@ -56,17 +50,14 @@ void MidiWriter::add_bpm(int track_index, int start, int bpm)
     get_track(track_index).add_event(start, event);
 }
 
-void MidiWriter::add_time_signature(int track_index, int start, int numerator, int denominator)
-{
-    if (numerator <= 0 || (denominator & (denominator - 1)) != 0)
-    {
+void MidiWriter::add_time_signature(int track_index, int start, int numerator, int denominator) {
+    if (numerator <= 0 || (denominator & (denominator - 1)) != 0) {
         std::cerr << "[W] Invalid time signature: " << numerator << "/" << denominator << "\n";
         return;
     }
 
     int dd = 0;
-    for (int d = denominator; d > 1; d >>= 1)
-        ++dd;
+    for (int d = denominator; d > 1; d >>= 1) ++dd;
 
     uint8_t cc = 24; // default MIDI clocks per metronome click
     uint8_t bb = 8;  // number of 32nd notes per MIDI quarter
@@ -80,8 +71,7 @@ void MidiWriter::add_time_signature(int track_index, int start, int numerator, i
     get_track(track_index).add_event(start, event);
 }
 
-void MidiWriter::add_track_name(int track_index, const std::string &name, int start)
-{
+void MidiWriter::add_track_name(int track_index, const std::string &name, int start) {
     std::vector<uint8_t> name_bytes(name.begin(), name.end());
     std::vector<uint8_t> event = {0xFF, 0x03, static_cast<uint8_t>(name_bytes.size())};
     event.insert(event.end(), name_bytes.begin(), name_bytes.end());
@@ -89,11 +79,14 @@ void MidiWriter::add_track_name(int track_index, const std::string &name, int st
     get_track(track_index).add_event(start, event);
 }
 
-void MidiWriter::add_note(int track_index, int channel, int start, int duration, int pitch,
-                          int velocity, int off_velocity)
-{
-    if (duration <= 0 || velocity < 0 || velocity > 127)
-    {
+void MidiWriter::add_note(int track_index,
+    int channel,
+    int start,
+    int duration,
+    int pitch,
+    int velocity,
+    int off_velocity) {
+    if (duration <= 0 || velocity < 0 || velocity > 127) {
         std::cerr << "[W] Invalid note parameters.\n";
         return;
     }
@@ -102,28 +95,25 @@ void MidiWriter::add_note(int track_index, int channel, int start, int duration,
     auto &track = get_track(track_index);
 
     std::vector<uint8_t> note_on = {static_cast<uint8_t>(0x90 | (channel & 0x0F)),
-                                    static_cast<uint8_t>(pitch & 0x7F),
-                                    static_cast<uint8_t>(velocity & 0x7F)};
+        static_cast<uint8_t>(pitch & 0x7F),
+        static_cast<uint8_t>(velocity & 0x7F)};
 
     std::vector<uint8_t> note_off = {static_cast<uint8_t>(0x80 | (channel & 0x0F)),
-                                     static_cast<uint8_t>(pitch & 0x7F),
-                                     static_cast<uint8_t>(off_velocity & 0x7F)};
+        static_cast<uint8_t>(pitch & 0x7F),
+        static_cast<uint8_t>(off_velocity & 0x7F)};
 
     track.add_event(start, note_on);
     track.add_event(end, note_off);
 }
 
-std::vector<uint8_t> MidiWriter::encode_var_len(int value) const
-{
+std::vector<uint8_t> MidiWriter::encode_var_len(int value) const {
     std::vector<uint8_t> buffer;
     uint32_t shifted = value & 0x7F;
-    while ((value >>= 7))
-    {
+    while ((value >>= 7)) {
         shifted <<= 8;
         shifted |= ((value & 0x7F) | 0x80);
     }
-    while (true)
-    {
+    while (true) {
         buffer.push_back(static_cast<uint8_t>(shifted & 0xFF));
         if (shifted & 0x80)
             shifted >>= 8;
@@ -133,17 +123,14 @@ std::vector<uint8_t> MidiWriter::encode_var_len(int value) const
     return buffer;
 }
 
-void MidiWriter::save(const std::string &filename) const
-{
+void MidiWriter::save(const std::string &filename) const {
     std::ofstream out(filename, std::ios::binary);
-    if (!out)
-    {
+    if (!out) {
         throw std::runtime_error("Failed to open output file.");
     }
 
     // Sor events in each track
-    for (const auto &track : tracks_)
-    {
+    for (const auto &track : tracks_) {
         const_cast<Track &>(track).sort_events();
     }
 
@@ -161,13 +148,11 @@ void MidiWriter::save(const std::string &filename) const
     output.push_back(TICKS_PER_QUARTER >> 8);
     output.push_back(TICKS_PER_QUARTER & 0xFF);
 
-    for (const auto &track : tracks_)
-    {
+    for (const auto &track : tracks_) {
         std::vector<uint8_t> track_data;
         int last_tick = 0;
 
-        for (const auto &ev : track.get_events())
-        {
+        for (const auto &ev : track.get_events()) {
             int delta = static_cast<int>(ev.tick - last_tick);
             last_tick = ev.tick;
 

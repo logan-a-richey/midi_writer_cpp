@@ -2,8 +2,7 @@
 
 #include "tests.h"
 
-int main(void)
-{
+int main(void) {
     // run all tests
 
     MidiTest::test_twinkle_star();

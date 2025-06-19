@@ -7,8 +7,7 @@
 
 #include "event.h"
 
-struct Track
-{
+struct Track {
     void add_event(uint64_t tick, const std::vector<uint8_t> &event_data);
     void sort_events();
     const std::vector<Event> &get_events() const;
