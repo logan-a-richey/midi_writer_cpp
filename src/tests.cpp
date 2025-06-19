@@ -46,10 +46,12 @@ const std::unordered_map<std::string, int> DRUMS = {
     {"cowbell", 56}
 };
 
+/*
 int get_drum_pitch(const std::string &name) {
     auto it = DRUMS.find(name);
     return (it != DRUMS.end()) ? it->second : DEFAULT_DRUM_PITCH;
 }
+*/
 
 void MidiTest::test_twinkle_star() {
     MidiWriter midi;
@@ -171,11 +173,11 @@ void MidiTest::create_drum_midi(
 
 void MidiTest::test_amen_drums() {
     std::map<std::string, int> patterns = {
-        {"................|................|................|..........x.....|", get_drum_pitch("cymbal_crash1")},
-        {"x.x.x.x.x.x.x.x.|x.x.x.x.x.x.x.x.|x.x.x.x.x.x.x.x.|x.x.x.x.x...x.x.|", get_drum_pitch("cymbal_ride")},
-        {"....x.......x...|....x.......x...|....x.........x.|....x.........x.|", get_drum_pitch("snare_drum")},
-        {".......x.x.....x|.......x.x.....x|.......x.x......|.x.....x.x......|", get_drum_pitch("snare_drum_rim")},
-        {"x.........xx....|x.........xx....|x.x.......x.....|..xx......x.....|", get_drum_pitch("kick_drum")}
+        {"................|................|................|..........x.....|", DRUMS["cymbal_crash1"]},
+        {"x.x.x.x.x.x.x.x.|x.x.x.x.x.x.x.x.|x.x.x.x.x.x.x.x.|x.x.x.x.x...x.x.|", DRUMS["cymbal_ride"]},
+        {"....x.......x...|....x.......x...|....x.........x.|....x.........x.|", DRUMS["snare_drum"]},
+        {".......x.x.....x|.......x.x.....x|.......x.x......|.x.....x.x......|", DRUMS["snare_drum_rim"]},
+        {"x.........xx....|x.........xx....|x.x.......x.....|..xx......x.....|", DRUMS["kick_drum"]}
     };
 
     create_drum_midi("output/test_drum_amen.mid", 170, patterns);
@@ -183,19 +185,20 @@ void MidiTest::test_amen_drums() {
 
 void MidiTest::test_disco_drums() {
     std::map<std::string, int> patterns = {
-        {"|x...............|................|................|................|x...............|", get_drum_pitch("cymbal_crash1")},
-        {"|................|................|x...x...x...x...|................|................|", get_drum_pitch("cymbal_ride")},
-        {"|................|................|..x...x...x...x.|................|................|", get_drum_pitch("cymbal_ride_bell")},
-        {"|....xx.xxx.xxx.x|xx.xxx.xxx.xxx.x|................|................|................|", get_drum_pitch("cymbal_hihat_closed")},
-        {"|......x...x...x.|..x...x...x...x.|................|................|................|", get_drum_pitch("cymbal_hihat_open")},
-        {"|................|................|................|xxx.............|................|", get_drum_pitch("tom5")},
-        {"|................|................|................|...xxx..........|................|", get_drum_pitch("tom4")},
-        {"|................|................|................|......xxx.......|................|", get_drum_pitch("tom3")},
-        {"|................|................|................|.........xxx....|................|", get_drum_pitch("tom2")},
-        {"|x...x...x...x...|x...x...x...x...|x...x...x...x...|x...x...x...x...|x...............|", get_drum_pitch("cowbell")},
-        {"|....x.......x..x|....x.......xxxx|...x..x....x..x.|............xxxx|................|", get_drum_pitch("snare_drum")},
-        {"|x.....x...x..x..|x.....x...x..x..|x.....x...x..x..|x...x...x...x...|x...............|", get_drum_pitch("kick_drum")}
+        {"|x...............|................|................|................|x...............|", DRUMS["cymbal_crash1"]},
+        {"|................|................|x...x...x...x...|................|................|", DRUMS["cymbal_ride"]},
+        {"|................|................|..x...x...x...x.|................|................|", DRUMS["cymbal_ride_bell"]},
+        {"|....xx.xxx.xxx.x|xx.xxx.xxx.xxx.x|................|................|................|", DRUMS["cymbal_hihat_closed"]},
+        {"|......x...x...x.|..x...x...x...x.|................|................|................|", DRUMS["cymbal_hihat_open"]},
+        {"|................|................|................|xxx.............|................|", DRUMS["tom5"]},
+        {"|................|................|................|...xxx..........|................|", DRUMS["tom4"]},
+        {"|................|................|................|......xxx.......|................|", DRUMS["tom3"]},
+        {"|................|................|................|.........xxx....|................|", DRUMS["tom2"]},
+        {"|x...x...x...x...|x...x...x...x...|x...x...x...x...|x...x...x...x...|x...............|", DRUMS["cowbell"]},
+        {"|....x.......x..x|....x.......xxxx|...x..x....x..x.|............xxxx|................|", DRUMS["snare_drum"]},
+        {"|x.....x...x..x..|x.....x...x..x..|x.....x...x..x..|x...x...x...x...|x...............|", DRUMS["kick_drum"]}
     };
 
     create_drum_midi("output/test_drums_disco.mid", 125, patterns);
 }
+

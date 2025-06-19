@@ -22,8 +22,9 @@ void midi_writer_add_bpm(void *writer, int track, int tick, int bpm) {
     static_cast<MidiWriter *>(writer)->add_bpm(track, tick, bpm);
 }
 
-void midi_writer_set_channel(void *writer, int track, int channel) {
-    static_cast<MidiWriter *>(writer)->set_channel(track, channel);
+// TODO should be int channel, int program
+void midi_writer_set_channel(void *writer, int channel, int program) {
+    static_cast<MidiWriter *>(writer)->set_channel(channel, program);
 }
 
 void midi_writer_save(void *writer, const char *filename) {
@@ -35,7 +36,11 @@ int midi_writer_add_track(void *writer) {
 }
 
 void midi_writer_add_time_signature(
-    void *writer, int track, int start, int numerator, int denominator) {
+    void *writer,
+    int track,
+    int start,
+    int numerator,
+    int denominator) {
     static_cast<MidiWriter *>(writer)->add_time_signature(track, start, numerator, denominator);
 }
 
