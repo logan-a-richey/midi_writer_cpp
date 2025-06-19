@@ -9,7 +9,10 @@ make -C bindings/c_binding clean
 
 # Optional: Clean other build dirs
 echo "[CLEAN] Cleaning build artifacts..."
-rm -rf build/ lib/ bindings/c_binding/build
+rm -rf build/
+rm -rf lib/ 
+rm -rf bindings/c_binding/build
+rm -rf bindings/build
 
 echo "[DONE] Clean completed."
 

@@ -17,9 +17,17 @@ constexpr int DRUM_CHANNEL = 9;
 constexpr int DEFAULT_DRUM_PITCH = 32;
 
 const std::unordered_map<char, int> LETTER_TO_PITCH = {
-    {'C', 60}, {'D', 62}, {'E', 64}, {'F', 65}, {'G', 67}, {'A', 69}, {'B', 71}};
+    {'C', 60},
+    {'D', 62},
+    {'E', 64},
+    {'F', 65},
+    {'G', 67},
+    {'A', 69},
+    {'B', 71}
+};
 
-const std::unordered_map<std::string, int> DRUMS = {{"kick_drum", 35},
+const std::unordered_map<std::string, int> DRUMS = {
+    {"kick_drum", 35},
     {"snare_drum_rim", 37},
     {"snare_drum", 38},
     {"cymbal_hihat_closed", 42},
@@ -35,7 +43,8 @@ const std::unordered_map<std::string, int> DRUMS = {{"kick_drum", 35},
     {"tom4", 47},
     {"tom5", 50},
     {"tambourine", 54},
-    {"cowbell", 56}};
+    {"cowbell", 56}
+};
 
 int get_drum_pitch(const std::string &name) {
     auto it = DRUMS.find(name);
@@ -58,7 +67,13 @@ void MidiTest::test_twinkle_star() {
         auto it = LETTER_TO_PITCH.find(ch);
         if (it != LETTER_TO_PITCH.end()) {
             midi.add_note(
-                0, 0, beat * TICKS_PER_QUARTER, TICKS_PER_QUARTER, it->second, DEFAULT_VELOCITY);
+                0,                          /* track */
+                0,                          /* channel */
+                beat * TICKS_PER_QUARTER,   /* start */
+                TICKS_PER_QUARTER,          /* duration */
+                it->second,                 /* pitch */
+                DEFAULT_VELOCITY            /* velocity */
+            );
         }
         ++beat;
     }
@@ -79,22 +94,25 @@ void MidiTest::test_chords() {
         int pitch;
     };
 
-    const std::vector<NoteSpec> notes = {{0, 3, 60},
+    const std::vector<NoteSpec> notes = {
+        {0, 3, 60},
         {0, 3, 64},
         {0, 3, 67},
         {0, 3, 71},
         {4, 4, 60},
         {5, 4, 64},
         {6, 4, 67},
-        {7, 4, 71}};
+        {7, 4, 71}
+    };
 
     for (const auto &n : notes) {
-        midi.add_note(0,
-            0,
-            n.start * TICKS_PER_QUARTER,
-            n.duration * TICKS_PER_QUARTER,
-            n.pitch,
-            DEFAULT_VELOCITY);
+        midi.add_note(
+            0,                              /* track */
+            0,                              /* channel */
+            n.start * TICKS_PER_QUARTER,    /* start */
+            n.duration * TICKS_PER_QUARTER, /* duration */
+            n.pitch,                        /* pitch */
+            DEFAULT_VELOCITY);              /* velocity */
     }
 
     const std::string filename = "output/test_chords.mid";
@@ -121,7 +139,11 @@ void MidiTest::test_multiple_tracks() {
 }
 
 void MidiTest::create_drum_midi(
-    const std::string &filename, int bpm, const std::map<std::string, int> &patterns) {
+    const std::string &filename, 
+    int bpm, 
+    const std::map<std::string, 
+    int> &patterns) 
+{
     MidiWriter midi;
     midi.add_bpm(0, 0, bpm);
 
@@ -134,7 +156,8 @@ void MidiTest::create_drum_midi(
                     tick_index * TICK_PER_16TH,
                     TICK_PER_16TH,
                     pitch,
-                    DEFAULT_VELOCITY);
+                    DEFAULT_VELOCITY
+                );
             }
             if (c != '|') {
                 ++tick_index;
@@ -148,46 +171,31 @@ void MidiTest::create_drum_midi(
 
 void MidiTest::test_amen_drums() {
     std::map<std::string, int> patterns = {
-        {"................|................|................|..........x.....|",
-            get_drum_pitch("cymbal_crash1")},
-        {"x.x.x.x.x.x.x.x.|x.x.x.x.x.x.x.x.|x.x.x.x.x.x.x.x.|x.x.x.x.x...x.x.|",
-            get_drum_pitch("cymbal_ride")},
-        {"....x.......x...|....x.......x...|....x.........x.|....x.........x.|",
-            get_drum_pitch("snare_drum")},
-        {".......x.x.....x|.......x.x.....x|.......x.x......|.x.....x.x......|",
-            get_drum_pitch("snare_drum_rim")},
-        {"x.........xx....|x.........xx....|x.x.......x.....|..xx......x.....|",
-            get_drum_pitch("kick_drum")}};
+        {"................|................|................|..........x.....|", get_drum_pitch("cymbal_crash1")},
+        {"x.x.x.x.x.x.x.x.|x.x.x.x.x.x.x.x.|x.x.x.x.x.x.x.x.|x.x.x.x.x...x.x.|", get_drum_pitch("cymbal_ride")},
+        {"....x.......x...|....x.......x...|....x.........x.|....x.........x.|", get_drum_pitch("snare_drum")},
+        {".......x.x.....x|.......x.x.....x|.......x.x......|.x.....x.x......|", get_drum_pitch("snare_drum_rim")},
+        {"x.........xx....|x.........xx....|x.x.......x.....|..xx......x.....|", get_drum_pitch("kick_drum")}
+    };
 
     create_drum_midi("output/test_drum_amen.mid", 170, patterns);
 }
 
 void MidiTest::test_disco_drums() {
     std::map<std::string, int> patterns = {
-        {"|x...............|................|................|................|x...............|",
-            get_drum_pitch("cymbal_crash1")},
-        {"|................|................|x...x...x...x...|................|................|",
-            get_drum_pitch("cymbal_ride")},
-        {"|................|................|..x...x...x...x.|................|................|",
-            get_drum_pitch("cymbal_ride_bell")},
-        {"|....xx.xxx.xxx.x|xx.xxx.xxx.xxx.x|................|................|................|",
-            get_drum_pitch("cymbal_hihat_closed")},
-        {"|......x...x...x.|..x...x...x...x.|................|................|................|",
-            get_drum_pitch("cymbal_hihat_open")},
-        {"|................|................|................|xxx.............|................|",
-            get_drum_pitch("tom5")},
-        {"|................|................|................|...xxx..........|................|",
-            get_drum_pitch("tom4")},
-        {"|................|................|................|......xxx.......|................|",
-            get_drum_pitch("tom3")},
-        {"|................|................|................|.........xxx....|................|",
-            get_drum_pitch("tom2")},
-        {"|x...x...x...x...|x...x...x...x...|x...x...x...x...|x...x...x...x...|x...............|",
-            get_drum_pitch("cowbell")},
-        {"|....x.......x..x|....x.......xxxx|...x..x....x..x.|............xxxx|................|",
-            get_drum_pitch("snare_drum")},
-        {"|x.....x...x..x..|x.....x...x..x..|x.....x...x..x..|x...x...x...x...|x...............|",
-            get_drum_pitch("kick_drum")}};
+        {"|x...............|................|................|................|x...............|", get_drum_pitch("cymbal_crash1")},
+        {"|................|................|x...x...x...x...|................|................|", get_drum_pitch("cymbal_ride")},
+        {"|................|................|..x...x...x...x.|................|................|", get_drum_pitch("cymbal_ride_bell")},
+        {"|....xx.xxx.xxx.x|xx.xxx.xxx.xxx.x|................|................|................|", get_drum_pitch("cymbal_hihat_closed")},
+        {"|......x...x...x.|..x...x...x...x.|................|................|................|", get_drum_pitch("cymbal_hihat_open")},
+        {"|................|................|................|xxx.............|................|", get_drum_pitch("tom5")},
+        {"|................|................|................|...xxx..........|................|", get_drum_pitch("tom4")},
+        {"|................|................|................|......xxx.......|................|", get_drum_pitch("tom3")},
+        {"|................|................|................|.........xxx....|................|", get_drum_pitch("tom2")},
+        {"|x...x...x...x...|x...x...x...x...|x...x...x...x...|x...x...x...x...|x...............|", get_drum_pitch("cowbell")},
+        {"|....x.......x..x|....x.......xxxx|...x..x....x..x.|............xxxx|................|", get_drum_pitch("snare_drum")},
+        {"|x.....x...x..x..|x.....x...x..x..|x.....x...x..x..|x...x...x...x...|x...............|", get_drum_pitch("kick_drum")}
+    };
 
     create_drum_midi("output/test_drums_disco.mid", 125, patterns);
 }
