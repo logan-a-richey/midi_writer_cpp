@@ -1,9 +1,14 @@
 # MidiWriter C++
-
 ## Overview
-* `MidiWriter` is a lightweight C++ class designed to generate and save MIDI files.
-* It provides an easy-to-use interface for adding tracks, setting channels, adding notes, time signatures, tempos, specifying tempo, and saving to `.mid` files.
-* Comes with Makefile and Python binding via CTypes.
+**MidiWriter** is a lightweight C++ library for programmatically generating and saving standard MIDI files. It offers a clean, minimal interface for:
+* Creating multiple tracks
+* Assigning channels and instruments
+* Adding notes, time signatures, and tempo changes
+* Writing to `.mid` files
+
+The library includes:
+* A `Makefile` for easy compilation
+* Python bindings via CTypes for cross-language integration
 
 ## Features
 * Creation of `.mid` files.
