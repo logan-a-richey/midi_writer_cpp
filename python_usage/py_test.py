@@ -2,18 +2,23 @@
 # midi_test.py
 
 import sys
+sys.dont_write_bytecode = True
+
 import os
 import ctypes
 from ctypes import c_int, c_char_p, c_void_p
 
-sys.dont_write_bytecode = True
-
-os.makedirs("output", exist_ok=True)
+#os.makedirs("output", exist_ok=True)
 
 LIB_PATH = os.path.join(os.path.dirname(__file__), "..", "lib", "libmidiwriter.so")
 lib = ctypes.CDLL(os.path.abspath(LIB_PATH))
 
 from midi_writer import MidiWriter
+
+################################################################################
+
+FNAME1 = "py_twinkle_star.mid"
+FNAME2 = "py_amen_drums.mid" 
 
 LETTER_TO_PITCH = {
     'C': 60, 
@@ -69,9 +74,8 @@ def twinkle_star_test():
         midi_writer.add_note(0, 0, 480 * beat, 480, note_pitch, 120)
         beat += 1
     
-    filename = "output/python_twinkle_star.mid"
-    midi_writer.save(filename)
-    print("[INFO] File created: {}".format(filename))
+    midi_writer.save(FNAME1)
+    print("[INFO] File created: {}".format(FNAME1))
 
 def create_drum_midi(filename: str, bpm: int, patterns: dict) -> None:
     midi_writer = MidiWriter()
@@ -98,7 +102,9 @@ def amen_drum_test():
         ".......x.x.....x|.......x.x.....x|.......x.x......|.x.....x.x......|": DRUMS["snare_drum_rim"],
         "x.........xx....|x.........xx....|x.x.......x.....|..xx......x.....|": DRUMS["kick_drum"]
     }
-    create_drum_midi("output/amen_drums.mid", 170, patterns)
+    create_drum_midi(FNAME2, 170, patterns)
+
+################################################################################
 
 def main():
     twinkle_star_test()

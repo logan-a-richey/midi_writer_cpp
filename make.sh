@@ -8,17 +8,22 @@ echo "[BUILD] Started..."
 
 # Dirs
 ROOT_DIR="$(pwd)"
+
 SRC_DIR="$ROOT_DIR/src"
 INCLUDE_DIR="$ROOT_DIR/include"
+
 BUILD_DIR="$ROOT_DIR/build"
 BIN_DIR="$ROOT_DIR/bin"
-CTYPES_SRC_DIR="$ROOT_DIR/bindings/ctypes_binding/src"
-CTYPES_BUILD_DIR="$ROOT_DIR/bindings/ctypes_binding/build"
 SHARED_LIB_DIR="$ROOT_DIR/lib"
+
+CTYPES_SRC_DIR="$ROOT_DIR/bindings/ctypes_binding/src"
+CTYPES_INCLUDE_DIR="$ROOT_DIR/bindings/ctypes_binding/include"
+CTYPES_BUILD_DIR="$ROOT_DIR/bindings/ctypes_binding/build"
 
 # Compiler Flags
 CXX=g++
 CXXFLAGS="-std=c++17 -fPIC -O2 -I$INCLUDE_DIR"
+CTYPES_CXXFLAGS="-std=c++17 -fPIC -O2 -I$INCLUDE_DIR -I$CTYPES_INCLUDE_DIR"
 LDFLAGS="-shared"
 
 # Clean/Create Build Dirs
@@ -36,7 +41,7 @@ $CXX "$BUILD_DIR"/*.o -o "$BIN_DIR/cpp_test.exe"
 
 # Compile ctypes binding files
 echo "[BUILD] Compiling ctypes_binding/src..."
-$CXX $CXXFLAGS -c "$CTYPES_SRC_DIR"/*.cpp
+$CXX $CTYPES_CXXFLAGS -c "$CTYPES_SRC_DIR"/*.cpp
 mv *.o "$CTYPES_BUILD_DIR"
 
 # Link shared library

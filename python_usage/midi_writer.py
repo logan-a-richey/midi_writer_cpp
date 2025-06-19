@@ -5,8 +5,8 @@ import ctypes
 from ctypes import c_int, c_char_p, c_void_p
 
 lib_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "lib", "libmidiwriter.so"))
-print("Looking for .so at:", lib_path)
-assert os.path.isfile(lib_path), "Shared library not found at expected path"
+# print("[DEBUG] Looking for .so at:", lib_path)
+assert os.path.isfile(lib_path), "[IMPORT ERROR] Shared library not found at expected path"
 
 LIB_PATH = os.path.join(os.path.dirname(__file__), "..", "lib", "libmidiwriter.so")
 lib = ctypes.CDLL(os.path.abspath(LIB_PATH))
