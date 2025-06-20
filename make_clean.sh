@@ -1,8 +1,8 @@
 #!/bin/bash
 # clean.sh
 
+# Exit on any error
 set -e
-
 echo "[CLEAN] Removing build artifacts..."
 
 ROOT_DIR="$(pwd)"

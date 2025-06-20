@@ -1,7 +1,9 @@
 #!/bin/bash
 # set up python venv, install project requirements
 
+# Exit on any error:
 set -e
+echo "[PYTHON_VENV] Started..."
 
 # Check for python3 and pip
 if ! command -v python3 &> /dev/null; then

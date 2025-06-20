@@ -3,7 +3,6 @@
 
 # Exit on any error
 set -e 
-
 echo "[BUILD] Started..."
 
 # Dirs

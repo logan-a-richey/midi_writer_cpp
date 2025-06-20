@@ -1,13 +1,14 @@
 #!/bin/bash
 #run_tests.sh
 
+# Exit on any error
 set -e
+echo "[TEST] Running test files."
 
 ROOT_DIR="$(pwd)"
 CPP_TEST="$ROOT_DIR/bin/cpp_test.exe"
 PY_TEST="$ROOT_DIR/python_usage/py_test.py"
 
-echo "[TEST] Running test files."
 mkdir -p output
 cd output 
 
