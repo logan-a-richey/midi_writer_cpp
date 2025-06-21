@@ -129,7 +129,7 @@ void MidiWriter::save(const std::string &filename) const {
         throw std::runtime_error("Failed to open output file.");
     }
 
-    // Sor events in each track
+    // sort events in each track
     for (const auto &track : tracks_) {
         const_cast<Track &>(track).sort_events();
     }
