@@ -47,4 +47,4 @@ void midi_writer_add_time_signature(
 void midi_writer_add_track_name(void *writer, int track, const char *name, int start) {
     static_cast<MidiWriter *>(writer)->add_track_name(track, std::string(name), start);
 }
-}
+} // extern C

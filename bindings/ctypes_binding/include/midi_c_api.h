@@ -18,5 +18,5 @@ void midi_writer_add_time_signature( void *writer, int track, int start, int num
 void midi_writer_add_track_name(void *writer, int track, const char *name, int start);
 
 #ifdef __cplusplus
-}
+} // extern C
 #endif
