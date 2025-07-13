@@ -79,28 +79,31 @@ void MidiWriter::add_track_name(int track_index, const std::string &name, int st
     get_track(track_index).add_event(start, event);
 }
 
-void MidiWriter::add_note(int track_index,
-    int channel,
-    int start,
-    int duration,
-    int pitch,
-    int velocity,
-    int off_velocity) {
-    if (duration <= 0 || velocity < 0 || velocity > 127) {
+void MidiWriter::add_note( int track_index, int channel, int start, int duration, int pitch, int velocity) 
+{
+    if (duration <= 0 || velocity < 0 || velocity > 127) 
+    {
         std::cerr << "[W] Invalid note parameters.\n";
         return;
     }
+    
+    // what is this value, lol
+    int off_velocity = 64;
 
     int end = start + duration;
     auto &track = get_track(track_index);
 
-    std::vector<uint8_t> note_on = {static_cast<uint8_t>(0x90 | (channel & 0x0F)),
+    std::vector<uint8_t> note_on = {
+        static_cast<uint8_t>(0x90 | (channel & 0x0F)),
         static_cast<uint8_t>(pitch & 0x7F),
-        static_cast<uint8_t>(velocity & 0x7F)};
+        static_cast<uint8_t>(velocity & 0x7F)
+    };
 
-    std::vector<uint8_t> note_off = {static_cast<uint8_t>(0x80 | (channel & 0x0F)),
+    std::vector<uint8_t> note_off = {
+        static_cast<uint8_t>(0x80 | (channel & 0x0F)),
         static_cast<uint8_t>(pitch & 0x7F),
-        static_cast<uint8_t>(off_velocity & 0x7F)};
+        static_cast<uint8_t>(off_velocity & 0x7F)
+    };
 
     track.add_event(start, note_on);
     track.add_event(end, note_off);
